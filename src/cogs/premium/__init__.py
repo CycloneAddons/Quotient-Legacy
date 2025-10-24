@@ -20,7 +20,7 @@ from models import Guild, PremiumTxn, Timer, User
 from utils import IST, discord_timestamp, emote, strtime
 
 from .expire import deactivate_premium, extra_guild_perks, remind_guild_to_pay, remind_user_to_pay
-from .views import PremiumPurchaseBtn, PremiumView
+from .views import DonateBtn, LegacyView
 
 
 class PremiumCog(Cog, name="Premium"):
@@ -33,24 +33,17 @@ class PremiumCog(Cog, name="Premium"):
     @commands.bot_has_permissions(embed_links=True)
     async def pstatus(self, ctx: Context):
         """Get your Quotient Premium status and the current server's."""
-        user = await User.get_or_none(user_id=ctx.author.id)
         guild = await Guild.filter(guild_id=ctx.guild.id).first()
 
-        if not user.is_premium:
-            atext = "\n> Activated: No!"
-
-        else:
-            atext = f"\n> Activated: Yes!\n> Ending: {discord_timestamp(user.premium_expire_time,'f')}"
 
         if not guild.is_premium:
             btext = "\n> Activated: No!"
 
         else:
             booster = guild.booster or await self.bot.fetch_user(guild.made_premium_by)
-            btext = f"\n> Activated: Yes!\n> Ending: {discord_timestamp(guild.premium_end_time,'f')}\n> Upgraded by: **{booster}**"
+            btext = f"\n> Activated: Yes!\n> Ending: *`forever (or until Cyclone dies)`*"
 
         embed = self.bot.embed(ctx, title="Quotient Premium", url=f"{self.bot.config.WEBSITE}")
-        embed.add_field(name="User", value=atext, inline=False)
         embed.add_field(name="Server", value=btext, inline=False)
         embed.set_thumbnail(url=ctx.guild.me.display_avatar.url)
         return await ctx.send(embed=embed)
@@ -58,20 +51,24 @@ class PremiumCog(Cog, name="Premium"):
     @commands.hybrid_command(aliases=("perks", "pro"))
     async def premium(self, ctx: Context):
         """Checkout Quotient Premium Plans."""
-        _e = discord.Embed(
-            color=self.bot.color,
-            description=f"[**Features of Quotient Pro -**]({self.bot.config.SERVER_LINK})\n\n"
-            f"{emote.check} Access to `Quotient Pro` bot.\n"
-            f"{emote.check} Unlimited Scrims.\n"
-            f"{emote.check} Unlimited Tournaments.\n"
-            f"{emote.check} Custom Reactions for Regs.\n"
-            f"{emote.check} Smart SSverification.\n"
-            f"{emote.check} Cancel-Claim Panel.\n"
-            f"{emote.check} Premium Role + more...\n",
+        _e = discord.Embed(color=0x00FFB3)
+        _e.title = "💎 Welcome to Quotient Legacy!"
+        _e.description = (
+            "__**Perks you get with Quotient Legacy (completely FREE!)**__\n\n"
+            f"{emote.white_arrow} Access to `Quotient Legacy` bot.\n"
+            f"{emote.white_arrow} Unlimited Scrims.\n"
+            f"{emote.white_arrow} Unlimited Tournaments.\n"
+            f"{emote.white_arrow} Custom Reactions for Regs.\n"
+            f"{emote.white_arrow} Smart SSverification.\n"
+            f"{emote.white_arrow} Cancel-Claim Panel.\n"
+            f"{emote.white_arrow} Premium Role + more...\n\n"
+            "_We provide this for free to honor the memory of Rohit, the original creator of Quotient. "
+            "If you love what we do and want to support us to keep this alive, you can donate using the button below._"
         )
+        _e.set_footer(text="Thank you for being part of the Quotient Legacy ❤️")
 
         v = discord.ui.View(timeout=None)
-        v.add_item(PremiumPurchaseBtn())
+        v.add_item(DonateBtn())
         await ctx.send(embed=_e, view=v)
 
     @tasks.loop(hours=48)
@@ -138,7 +135,7 @@ class PremiumCog(Cog, name="Premium"):
                 if all((role.permissions.administrator, not role.managed, role.members))
             ]
 
-            _view = PremiumView()
+            _view = LegacyView()
             await _ch.send(
                 embed=_e,
                 view=_view,

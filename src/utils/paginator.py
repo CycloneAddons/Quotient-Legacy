@@ -4,7 +4,7 @@ from typing import NamedTuple, Optional
 import discord
 
 from .default import get_chunks
-
+from utils import emote
 
 class Page(NamedTuple):
     index: int
@@ -151,7 +151,7 @@ class PaginatorView(discord.ui.View):
         with suppress(discord.HTTPException):
             await self.message.edit(view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="first", emoji="<:double_left:878668594530099220>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="first", emoji=emote.double_left)
     async def first(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.defer()
         page = self.pages.first_page
@@ -160,7 +160,7 @@ class PaginatorView(discord.ui.View):
         self.lock_bro()
         await interaction.message.edit(embed=self.embed, view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="previous", emoji="<:left:878668491660623872>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="previous", emoji=emote.left)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.defer()
         page = self.pages.previous_page
@@ -168,7 +168,7 @@ class PaginatorView(discord.ui.View):
         self.lock_bro()
         await interaction.message.edit(embed=self.embed, view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="next", emoji="<:right:878668370331983913>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="next", emoji=emote.right)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.defer()
         page = self.pages.next_page
@@ -177,7 +177,7 @@ class PaginatorView(discord.ui.View):
         self.lock_bro()
         await interaction.message.edit(embed=self.embed, view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="last", emoji="<:double_right:878668437193359392>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="last", emoji=emote.double_right)
     async def last(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.defer()
         page = self.pages.last_page

@@ -1,3 +1,52 @@
+const fs = require("fs");
+const path = require("path");
+
+const FOLDER = "./src"; 
+const OUTPUT_FILE = "emoji_data.json";
+
+const emojiRegex = /<a?:([a-zA-Z0-9_]+):(\d+)>/g;
+
+const emojiMap = new Map();
+
+function scanFiles(dir) {
+    const files = fs.readdirSync(dir);
+
+    for (const file of files) {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            scanFiles(fullPath); 
+        } else if (/\.(py|js|ts|txt|json)$/i.test(file)) {
+            const content = fs.readFileSync(fullPath, "utf-8");
+            let match;
+            while ((match = emojiRegex.exec(content)) !== null) {
+                const name = match[1];
+                const id = match[2];
+                const isAnimated = match[0].startsWith("<a:");
+                const extension = isAnimated ? "gif" : "png";
+                const url = `https://cdn.discordapp.com/emojis/${id}.${extension}`;
+
+                // Store unique by ID
+                if (!emojiMap.has(id)) {
+                    emojiMap.set(id, { name, url });
+                }
+            }
+        }
+    }
+}
+
+scanFiles(FOLDER);
+
+const emojiArray = Array.from(emojiMap.values());
+
+fs.writeFileSync(OUTPUT_FILE, JSON.stringify(emojiArray, null, 4));
+console.log(`✅ Found ${emojiArray.length} unique emojis! Saved to ${OUTPUT_FILE}`);
+
+
+
+
+/*
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, AsyncGenerator, Callable, Coroutine, Dict, Iterable, List, Optional, Union
@@ -10,6 +59,7 @@ import itertools
 import os
 import time
 from datetime import datetime, timedelta
+import json
 
 import aiohttp
 import discord
@@ -26,6 +76,10 @@ from models import Guild, Timer
 from .cache import CacheManager
 from .Context import Context
 from .Help import HelpCommand
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+EMOJI_JSON = os.path.join(BASE_DIR, "emoji_data.json")
+
 
 intents = Intents.default()
 intents.members = True
@@ -70,6 +124,8 @@ class Quotient(commands.AutoShardedBot):
         self.lockdown: bool = False
         self.lockdown_msg: Optional[str] = None
         self._BotBase__cogs = commands.core._CaseInsensitiveDict()
+
+        self.emoji_dict = {}
 
         self.message_cache: Dict[int, Any] = LRU(1024)  # type: ignore
 
@@ -218,18 +274,59 @@ class Quotient(commands.AutoShardedBot):
             ctx.author.id,
         )
 
+    def getEmoji(self, name: str) -> str:
+        return self.emoji_dict.get(name, "")
+
     async def on_ready(self):
         print(f"[Quotient] Logged in as {self.user.name}({self.user.id})")
-        end_time = datetime.utcnow() + timedelta(days=365*1000)
+        print(BASE_DIR, EMOJI_JSON)
 
-        guild_ids = [guild.id for guild in self.guilds] 
+        if os.path.exists(EMOJI_JSON):
+            with open(EMOJI_JSON, "r") as f:
+                emoji_list = json.load(f)
+        else:
+            emoji_list = []
 
-        for guild_id in guild_ids:
-          await Guild.get(pk=guild_id).update(
-            is_premium=True,
-            premium_end_time=end_time,
-            made_premium_by=self.user.id
-        )
+        emoji_names_in_json = {e["name"] for e in emoji_list}
+        uploaded_ids = set()
+
+        for guild_id in self.config.EMOJIS_SERVER:
+            guild = self.get_guild(int(guild_id))
+            if not guild:
+                continue
+
+            existing_names = {e.name for e in guild.emojis}
+
+            for emoji in emoji_list:
+                name = emoji["name"]
+                url = emoji["url"]
+
+                if name in existing_names or name in uploaded_ids:
+                    e_obj = discord.utils.get(guild.emojis, name=name)
+                    if e_obj:
+                        self.emoji_dict[name] = f"<{'a' if e_obj.animated else ''}:{e_obj.name}:{e_obj.id}>"
+                    continue
+
+                if len(guild.emojis) >= guild.emoji_limit:
+                    break
+
+                if url.startswith("http"):
+                    try:
+                        async with aiohttp.ClientSession() as session:
+                            async with session.get(url) as resp:
+                                if resp.status != 200:
+                                    continue
+                                img_data = await resp.read()
+                        new_emoji = await guild.create_custom_emoji(name=name, image=img_data)
+                        uploaded_ids.add(name)
+                        self.emoji_dict[name] = f"<{'a' if new_emoji.animated else ''}:{new_emoji.name}:{new_emoji.id}>"
+                    except discord.HTTPException:
+                        continue
+
+        with open(EMOJI_JSON, "w") as f:
+            json.dump(emoji_list, f, indent=4)
+
+        print("[INFO] Emoji sync complete.")
 
     async def wait_and_delete(self, message: discord.Message, delay: int = 10):
         """Waits for `delay` seconds and deletes the message"""
@@ -444,3 +541,5 @@ bot = Quotient()
 async def bot_before_invoke(ctx: Context):
     if ctx.guild is not None and not ctx.guild.chunked:
         bot.loop.create_task(ctx.guild.chunk())
+
+        */

@@ -73,7 +73,7 @@ class GroupPages(EsportsBaseView):
         _e.set_footer(text="Page {}/{}".format(current_page, len(self.records)))
         return _e
 
-    @discord.ui.button(emoji="<:left:878668491660623872>")
+    @discord.ui.button(emoji=emote.left)
     async def prev_button(self, interaction: discord.Interaction, button: discord.Button):
         await interaction.response.defer()
 
@@ -101,7 +101,7 @@ class GroupPages(EsportsBaseView):
         self.record = self.records[p - 1]
         await self.refresh_view()
 
-    @discord.ui.button(emoji="<:right:878668370331983913>")
+    @discord.ui.button(emoji=emote.right)
     async def next_button(self, interaction: discord.Interaction, button: discord.Button):
         await interaction.response.defer()
 

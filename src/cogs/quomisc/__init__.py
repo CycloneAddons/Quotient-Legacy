@@ -16,6 +16,7 @@ import pkg_resources
 import psutil
 import pygit2
 from discord.ext import commands
+from discord import Embed, Color
 
 from cogs.quomisc.helper import format_relative
 from core import Cog, Context, QuotientView
@@ -28,30 +29,45 @@ from .views import MoneyButton, SetupButtonView, VoteButton
 
 
 class Quomisc(Cog, name="quomisc"):
-    def __init__(self, bot: Quotient):
+    def __init__(self, bot):
         self.bot = bot
 
     @commands.command(aliases=("src",))
     async def source(self, ctx: Context, *, search: typing.Optional[str]):
         """Refer to the source code of the bot commands."""
-        source_url = "https://github.com/quotientbot/Quotient-Bot"
+        og_source_url = "https://github.com/quotientbot/Quotient-Bot"
+        legacy_url = "https://github.com/CycloneAddons/Quotient-Legacy"
 
         if search is None:
-            return await ctx.send(f"<{source_url}>")
+            e = Embed(
+                title="📦 Bot Source Code",
+                description=(
+                    f"**Original Quotient Source:** [Click Here]({og_source_url})\n\n"
+                    f"**Quotient Legacy:** [Private Repository]({legacy_url})\n"
+                    "_The Quotient Legacy repo will be open source after we reach 500 servers._"
+                ),
+                color=0x00FFB3
+            )
+            e.set_footer(text="Revived and maintained by Cyclone Addons ❤️")
+            return await ctx.send(embed=e)
 
         command = ctx.bot.get_command(search)
-
         if not command:
             return await ctx.send("Couldn't find that command.")
 
         src = command.callback.__code__
         filename = src.co_filename
         lines, firstlineno = inspect.getsourcelines(src)
-
         location = os.path.relpath(filename).replace("\\", "/")
+        final_url = f"{og_source_url}/blob/main/{location}#L{firstlineno}-L{firstlineno + len(lines) - 1}"
 
-        final_url = f"<{source_url}/blob/main/{location}#L{firstlineno}-L{firstlineno + len(lines) - 1}>"
-        await ctx.send(final_url)
+        e = Embed(
+            title=f"🔍 Source for `{command.name}`",
+            description=f"[Click here to view the source]({final_url})",
+            color=0x00FFB3
+        )
+        e.set_footer(text="Revived and maintained by Cyclone Addons ❤️")
+        await ctx.send(embed=e)
 
     @commands.command(aliases=("inv",))
     async def invite(self, ctx: Context):
@@ -337,6 +353,7 @@ class Quomisc(Cog, name="quomisc"):
                     f"`{idx:02}.` [{contributor['login']} ({contributor['contributions']})]({contributor['html_url']})\n"
                 )
 
+        e.description += "\n`–` Revived and maintained by [Cyclone Addons](https://github.com/CycloneAddons)"
         await ctx.send(embed=e)
 
 

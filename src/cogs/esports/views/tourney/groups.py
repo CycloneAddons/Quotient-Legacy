@@ -217,10 +217,10 @@ class GroupListView(EsportsBaseView):
         await interaction.response.defer(ephemeral=True)
 
         if not await self.ctx.is_premium_guild():
-            from cogs.premium.views import PremiumView
+            from cogs.premium.views import LegacyView
 
-            _view = PremiumView()
-            return await interaction.followup.send(embed=_view.premium_embed, view=_view)
+            _view = LegacyView()
+            return await interaction.followup.send(embed=_view.legacy_embed, view=_view)
 
         try:
             _webhook = await self.channel.create_webhook(
@@ -241,7 +241,7 @@ class GroupListView(EsportsBaseView):
         await self.ctx.safe_delete(m)
         await self.ctx.success("Group list published.", 4)
 
-    @discord.ui.button(custom_id="publish_g_bot", emoji="<:pain:837567768106238002>", label="With Bot")
+    @discord.ui.button(custom_id="publish_g_bot", emoji=emote.pain, label="With Bot")
     async def publish_groups_bot(self, interaction: discord.Interaction, button: discord.Button):
         await interaction.response.defer(ephemeral=True)
 

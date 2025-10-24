@@ -206,10 +206,10 @@ class Context(commands.Context["commands.Bot"], Generic[BotT]):
             await channel.purge(limit=limit, check=check)
 
     async def premium_mango(self, msg: str = "This feature requires Quotient Premium.") -> Optional[discord.Message]:
-        from cogs.premium.views import PremiumView
+        from cogs.premium.views import LegacyView
 
-        _view = PremiumView(msg)
-        return await self.send(embed=_view.premium_embed, view=_view, embed_perms=True)
+        _view = LegacyView(msg)
+        return await self.send(embed=_view.legacy_embed, view=_view, embed_perms=True)
 
     @staticmethod
     def get_dm_view(msg: str) -> discord.ui.View:

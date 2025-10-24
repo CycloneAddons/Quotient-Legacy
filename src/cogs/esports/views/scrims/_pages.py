@@ -4,6 +4,7 @@ import discord
 
 from core import Context
 from models import Scrim
+from utils import emote
 
 from ._base import ScrimsButton
 
@@ -12,7 +13,7 @@ __all__ = "Next", "Prev", "SkipTo"
 
 class Next(ScrimsButton):
     def __init__(self, ctx: Context, row: int = None):
-        super().__init__(emoji="<:double_right:878668437193359392>", row=row)
+        super().__init__(emoji=emote.double_right, row=row)
         self.ctx = ctx
 
     async def callback(self, interaction: discord.Interaction):
@@ -34,7 +35,7 @@ class Next(ScrimsButton):
 
 class Prev(ScrimsButton):
     def __init__(self, ctx: Context, row: int = None):
-        super().__init__(emoji="<:double_left:878668594530099220>", row=row)
+        super().__init__(emoji=emote.double_left, row=row)
         self.ctx = ctx
 
     async def callback(self, interaction: discord.Interaction):

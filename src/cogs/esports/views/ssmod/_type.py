@@ -3,7 +3,7 @@ from __future__ import annotations
 import discord
 
 from constants import SSType
-from utils import BaseSelector
+from utils import BaseSelector, emote
 
 
 class SStypeSelector(discord.ui.Select):
@@ -15,37 +15,37 @@ class SStypeSelector(discord.ui.Select):
             options=[
                 discord.SelectOption(
                     label="Youtube",
-                    emoji="<:youtube:938835185976344576>",
+                    emoji=emote.youtube,
                     value=SSType.yt.value,
                     description="Youtube Channel Screenshots",
                 ),
                 discord.SelectOption(
                     label="Instagram",
-                    emoji="<:instagram:938834438656249896>",
+                    emoji=emote.instagram,
                     value=SSType.insta.value,
                     description="Instagram Screenshots (Premium only)",
                 ),
                 discord.SelectOption(
                     label="Rooter",
-                    emoji="<:rooter:938834226483171418>",
+                    emoji=emote.rooter,
                     value=SSType.rooter.value,
                     description="Rooter Screenshots (Premium only)",
                 ),
                 discord.SelectOption(
                     label="Loco",
-                    emoji="<:loco:938834181088219146>",
+                    emoji=emote.loco,
                     value=SSType.loco.value,
                     description="Loco Screenshots (Premium only)",
                 ),
                 discord.SelectOption(
                     label="Any SS",
-                    emoji="<:hehe:874303673981878272>",
+                    emoji=emote.hehe,
                     value=SSType.anyss.value,
                     description="Verify any Image (Premium only)",
                 ),
                 discord.SelectOption(
                     label="Create Custom Filter",
-                    emoji="<a:rooCoder:881404453415186502>",
+                    emoji=emote.rooCoder,
                     value=SSType.custom.value,
                     description="For anything like app installation, any mobile app,etc.",
                 ),

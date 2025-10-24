@@ -31,7 +31,7 @@ class TCancelSlotSelector(discord.ui.Select):
                     label=f"Number {slot.num} ─ {slot.team_name.title()}",
                     description=truncate_string(description, 100),
                     value=slot.id,
-                    emoji="<:text:815827264679706624>",
+                    emoji=emote.text,
                 )
             )
 
@@ -192,7 +192,7 @@ class TourneySlotManager(discord.ui.View):
                 await TMSlot.filter(pk=_id).update(team_name=truncate_string(team_name.content, 30))
                 return await interaction.followup.send(f"{emote.check} | Your team name was changed.", ephemeral=True)
 
-    @discord.ui.button(emoji="<:swap:954022423542509598>", label="Swap Groups", custom_id="tourney-swap-groups")
+    @discord.ui.button(emoji=emote.swap, label="Swap Groups", custom_id="tourney-swap-groups")
     async def tourney_group_swap(self, inter: discord.Interaction, button: discord.Button):
         await inter.response.defer()
 

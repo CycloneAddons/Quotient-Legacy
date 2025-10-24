@@ -48,6 +48,7 @@ bot = "<:bot:833991659133992991>"
 bot_devloper = "<:bot_devloper:833991714637217803>"
 verified_bot = "<:verifiedbot1:833991773248290817><:verifiedbot2:833991793683070996>"
 
+white_arrow = "<:arrow:1421028612676780102>"
 check = "<:check:807913701151342592>"
 xmark = "<:xmark:807913737805234176>"
 loading = "<a:loading:815826684262744124>"
@@ -78,6 +79,24 @@ green2 = "<:green2:870909061225390131>"
 green3 = "<:green3:870909061661605969>"
 green4 = "<:green4:870909062320099329>"
 green5 = "<:green5:870909062345281546>"
+
+#shifted emojies from files
+left         = "<:left:878668491660623872>"
+right        = "<:right:878668370331983913>"
+refresh      = "<:refresh:953888517619064833>"
+double_left  = "<:double_left:878668594530099220>"
+double_right = "<:double_right:878668437193359392>"
+youtube      = "<:youtube:938835185976344576>"
+instagram    = "<:instagram:938834438656249896>"
+rooter       = "<:rooter:938834226483171418>"
+loco         = "<:loco:938834181088219146>"
+hehe         = "<:hehe:874303673981878272>"
+rooCoder     = "<a:rooCoder:881404453415186502>"
+pain         = "<:pain:837567768106238002>"
+text         = "<:text:815827264679706624>"
+swap         = "<:swap:954022423542509598>"
+plant        = "<:plant:1253293916724264981>"
+c_c          = "<:c_:972805722276524092>"
 
 BADGES = {
     "creator": "<:creator:807911084069617674>",

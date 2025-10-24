@@ -27,7 +27,7 @@ class GroupRefresh(discord.ui.View):
 
     @discord.ui.button(
         custom_id="t_groups_refresh",
-        emoji="<:refresh:953888517619064833>",
+        emoji=emote.refresh,
         label="Refresh",
         style=discord.ButtonStyle.green,
     )

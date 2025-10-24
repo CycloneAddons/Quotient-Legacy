@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import discord
 
-from utils import integer_input
+from utils import integer_input, emote
 
 from ...views.base import Context, EsportsBaseView
 
@@ -11,7 +11,7 @@ class NextButton(discord.ui.Button):
     view: "EsportsBaseView"
 
     def __init__(self):
-        super().__init__(emoji="<:double_right:878668437193359392>")
+        super().__init__(emoji=emote.double_right)
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.defer()
@@ -24,7 +24,7 @@ class PrevButton(discord.ui.Button):
     view: "EsportsBaseView"
 
     def __init__(self):
-        super().__init__(emoji="<:double_left:878668594530099220>")
+        super().__init__(emoji=emote.double_left)
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.defer()

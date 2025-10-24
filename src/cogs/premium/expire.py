@@ -9,7 +9,7 @@ import config
 from models import EasyTag, Guild, Scrim, ScrimsSlotManager, SSVerify, TagCheck, Tourney, User
 from utils import discord_timestamp, plural
 
-from .views import PremiumView
+from .views import LegacyView
 
 
 async def deactivate_premium(guild_id: int):
@@ -94,7 +94,7 @@ async def remind_guild_to_pay(guild: discord.Guild, model: Guild):
             role.mention for role in guild.roles if all((role.permissions.administrator, not role.managed, role.members))
         ]
 
-        _view = PremiumView(label="Renew Quotient Pro")
+        _view = LegacyView(label="Renew Quotient Pro")
         await _ch.send(
             embed=_e,
             view=_view,

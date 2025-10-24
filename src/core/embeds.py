@@ -4,7 +4,7 @@ import typing as T
 from contextlib import suppress
 
 import discord
-
+from utils import emote
 if T.TYPE_CHECKING:
     from core import Context
 
@@ -22,12 +22,12 @@ class EmbedOptions(discord.ui.Select):
                 # discord.SelectOption(
                 #     label="Normal Text",
                 #     description="This is displayed above the embed.",
-                #     emoji="<:c_:972805722276524092>",
+                #     emoji= emote.c_c,
                 #     value="content",
                 # ),
                 discord.SelectOption(
                     label="Edit Message (Title, Description, Footer)",
-                    emoji="<:add:844825523003850772>",
+                    emoji=emote.add,
                     value="main",
                     description="Edit your embed title, description, and footer.",
                 ),
@@ -52,7 +52,7 @@ class EmbedOptions(discord.ui.Select):
                 discord.SelectOption(
                     label="Edit Embed Color",
                     description="Change the color of the embed",
-                    emoji="<:plant:1253293916724264981>",
+                    emoji=emote.plant,
                     value="color",
                 ),
             ],

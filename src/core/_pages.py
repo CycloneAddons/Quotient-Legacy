@@ -5,7 +5,7 @@ import typing as T
 
 import discord
 
-from utils.default import split_list
+from utils.default import split_list, emote
 
 from .Context import Context
 from .views import QuotientView
@@ -141,7 +141,7 @@ class QuoPageView(QuotientView):
     @discord.ui.button(
         style=discord.ButtonStyle.green,
         custom_id="first",
-        emoji="<:double_left:878668594530099220>",
+        emoji=emote.double_left,
     )
     async def first_page(self, interaction: discord.Interaction, button: discord.Button):
         self.current_page = 1
@@ -149,7 +149,7 @@ class QuoPageView(QuotientView):
 
         await interaction.response.edit_message(embed=self.embed, view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="previous", emoji="<:left:878668491660623872>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="previous", emoji=emote.left)
     async def previous_page(self, interaction: discord.Interaction, button: discord.Button):
         if self.current_page == 1:
             return
@@ -197,7 +197,7 @@ class QuoPageView(QuotientView):
                 else:
                     await interaction.response.edit_message(embed=self.embed, view=self)
 
-    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="next", emoji="<:right:878668370331983913>")
+    @discord.ui.button(style=discord.ButtonStyle.green, custom_id="next", emoji=emote.right)
     async def next_page(self, interaction: discord.Interaction, button: discord.Button):
         if self.current_page == len(self.pages):
             return
@@ -210,7 +210,7 @@ class QuoPageView(QuotientView):
     @discord.ui.button(
         style=discord.ButtonStyle.green,
         custom_id="last",
-        emoji="<:double_right:878668437193359392>",
+        emoji=emote.double_right,
     )
     async def last_page(self, interaction: discord.Interaction, button: discord.Button):
         self.current_page = len(self.pages)

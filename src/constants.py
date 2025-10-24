@@ -109,17 +109,17 @@ bot_colors = {
 }
 
 perks = {
-    "Premium Role": ["❌", "✅"],
-    "Scrims": ["3", "Unlimited"],
-    "Tourneys": ["2", "Unlimited"],
-    "TagCheck": ["1", "Unlimited"],
-    "EasyTags": ["1", "Unlimited"],
-    "Autorole": ["1", "Unlimited"],
-    "Custom Footer": ["❌", "✅"],
-    "Custom Color": ["❌", "✅"],
-    "Giveaway": ["5", "Unlimited"],
-    "Edit Ptable Watermark": ["❌", "✅"],
-    "Autopurge": ["1", "Unlimited"],
+    "Premium Role": ["✅"],
+    "Scrims": ["Unlimited"],
+    "Tourneys": ["Unlimited"],
+    "TagCheck": ["Unlimited"],
+    "EasyTags": ["Unlimited"],
+    "Autorole": ["Unlimited"],
+    "Custom Footer": ["✅"],
+    "Custom Color": ["✅"],
+    "Giveaway": ["Unlimited"],
+    "Edit Ptable Watermark": ["✅"],
+    "Autopurge": ["Unlimited"],
 }
 
 
@@ -189,7 +189,7 @@ async def remind_premium(ctx):
     if random.randint(1, 3) != 1:
         return
 
-    from cogs.premium.views import PremiumPurchaseBtn
+    from cogs.premium.views import DonateBtn
     from models import Guild
     from utils import discord_timestamp
 
@@ -208,7 +208,7 @@ async def remind_premium(ctx):
         "*Click the button to renew your subscription.*"
     )
     v = discord.ui.View(timeout=None)
-    v.add_item(PremiumPurchaseBtn(label="Renew Premium"))
+    v.add_item(DonateBtn(label="Renew Premium"))
 
     try:
         await ctx.reply(embed=_e, view=v)

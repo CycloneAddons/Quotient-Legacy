@@ -10,6 +10,8 @@ class ArrayField(Field, list):
         self.SQL_TYPE = "%s[]" % field.SQL_TYPE
 
     def to_python_value(self, value: Any) -> Any:
+        if value is None:
+          return []
         return list(map(self.sub_field.to_python_value, value))
 
     def to_db_value(self, value: Any, instance: Any) -> Any:
