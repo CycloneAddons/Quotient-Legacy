@@ -47,7 +47,7 @@ class TourneyManager(EsportsBaseView):
         _e.description = "\n".join(to_show) if to_show else "```Click Create button for new tourney.```"
         _e.set_thumbnail(url=self.ctx.guild.me.display_avatar.url)
         _e.set_footer(
-            text="Quotient Prime allows unlimited tournaments.",
+            text="Quotient Legacy allows unlimited tournaments.",
             icon_url=getattr(self.ctx.author.display_avatar, "url", None),
         )
 
