@@ -94,7 +94,7 @@ class MoneyButton(BaseView):
             await member.add_roles(discord.Object(id=self.bot.config.PREMIUM_ROLE), reason="They purchased premium.")
 
         await self.ctx.success(
-            "Credited Quotient Prime for 1 Month to your account,\n\n"
+            "Credited Quotient Legacy for 1 Month to your account,\n\n"
             "Use `qboost` in any server to upgrade it with Prime."
         )
 
