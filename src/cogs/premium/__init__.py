@@ -48,6 +48,41 @@ class PremiumCog(Cog, name="Premium"):
         embed.set_thumbnail(url=ctx.guild.me.display_avatar.url)
         return await ctx.send(embed=embed)
 
+    @commands.hybrid_command(aliases=("getpremium",))
+    @commands.bot_has_permissions(embed_links=True)
+    async def prefresh(self, ctx: Context):
+        """If your server didn't get premium yet, use this command to get lifetime premium."""
+
+        msg = await ctx.send("🔄 Refreshing premium for your guild and all other guilds...")
+
+        end_time = datetime.utcnow() + timedelta(days=365 * 1000)
+        guild_ids = [guild.id for guild in self.bot.guilds]
+
+        for guild_id in guild_ids:
+            await Guild.get(pk=guild_id).update(
+                is_premium=True,
+                premium_end_time=end_time,
+                made_premium_by=self.bot.user.id
+            )
+
+        guild = await Guild.filter(guild_id=ctx.guild.id).first()
+
+        if not guild.is_premium:
+            btext = "\n> Activated: No!"
+        else:
+            booster = guild.booster or await self.bot.fetch_user(guild.made_premium_by)
+            btext = (
+                f"\n> Activated: Yes!"
+                f"\n> Ending: *`forever (or until Cyclone dies)`*"
+            )
+
+        embed = self.bot.embed(ctx, title="Quotient Legacy Premium Refreshed", url=f"{self.bot.config.WEBSITE}")
+        embed.add_field(name="Server", value=btext, inline=False)
+        embed.set_thumbnail(url=ctx.guild.me.display_avatar.url)
+
+        return await msg.edit(content=None, embed=embed)
+
+
     @commands.hybrid_command(aliases=("perks", "pro"))
     async def premium(self, ctx: Context):
         """Checkout Quotient Premium Plans."""
