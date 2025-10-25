@@ -212,7 +212,7 @@ class GroupListView(EsportsBaseView):
 
         return _e
 
-    @discord.ui.button(custom_id="publish_g_hook", emoji="<a:diamond:899295009289949235>", label="Webhook (Recommended)")
+    @discord.ui.button(custom_id="publish_g_hook", emoji=emote.diamond, label="Webhook (Recommended)")
     async def publish_groups_webhook(self, interaction: discord.Interaction, button: discord.Button):
         await interaction.response.defer(ephemeral=True)
 

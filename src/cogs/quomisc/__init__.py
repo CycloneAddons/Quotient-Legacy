@@ -306,7 +306,7 @@ class Quomisc(Cog, name="quomisc"):
         e = self.bot.embed(ctx, title="Vote for Quotient")
         e.description = (
             "**Rewards**\n"
-            "<a:roocool:962749077831942276> Voter Role `12 hrs`\n"
+            f"{emote.roocool} Voter Role `12 hrs`\n"
             f"{self.bot.config.PRIME_EMOJI} Quo Coin `x1`"
         )
         e.set_thumbnail(url=self.bot.user.display_avatar.url)

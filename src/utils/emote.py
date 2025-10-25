@@ -1,4 +1,3 @@
-# never ask me to remove these :c
 red = "<:red:775586906599456779>"
 green = "<:green:775586905580240946>"
 yellow = "<:yellow:775586904439128064>"
@@ -97,6 +96,7 @@ text         = "<:text:815827264679706624>"
 swap         = "<:swap:954022423542509598>"
 plant        = "<:plant:1253293916724264981>"
 c_c          = "<:c_:972805722276524092>"
+roocool      = "<a:roocool:962749077831942276>"
 
 BADGES = {
     "creator": "<:creator:807911084069617674>",
