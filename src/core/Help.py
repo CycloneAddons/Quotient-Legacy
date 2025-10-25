@@ -8,7 +8,7 @@ from discord.ext import commands
 
 import config
 from models import Guild
-from utils import LinkButton, LinkType, QuoPaginator, discord_timestamp, truncate_string
+from utils import LinkButton, LinkType, QuoPaginator, discord_timestamp, truncate_string, emote
 
 from .Cog import Cog
 
@@ -42,7 +42,7 @@ class HelpCommand(commands.HelpCommand):
 
         guild = await Guild.get_or_none(pk=ctx.guild.id)
         if guild and guild.is_premium:
-            embed.description += f"{emote.BADGES.top_user} [__Server Premium ending:__]({config.SERVER_LINK}) *`forever (or until Cyclone dies)`*"
+            embed.description += f"{emote.top_user} [__Server Premium ending:__]({config.SERVER_LINK}) *`forever (or until Cyclone dies)`*"
 
         for cog, cmds in mapping.items():
             if cog and cog.qualified_name not in hidden and await self.filter_commands(cmds, sort=True):
