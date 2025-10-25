@@ -267,7 +267,7 @@ class ScrimsSlash(commands.GroupCog, name="scrims"):
                         color=discord.Color.red(),
                         description=(
                             "You can only create 3 scrims in a server without premium.\n\n"
-                            "### Use `qpro` command to activate Quotient Pro."
+                            "### Use `qpro` command to activate Quotient Legacy."
                         ),
                     )
                 )

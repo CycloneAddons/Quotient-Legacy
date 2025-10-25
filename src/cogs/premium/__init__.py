@@ -120,10 +120,10 @@ class PremiumCog(Cog, name="Premium"):
 
         if (_ch := _g.private_ch) and _ch.permissions_for(_ch.guild.me).embed_links:
             _e = discord.Embed(
-                color=discord.Color.red(), title="⚠️__**Quotient Pro Subscription Ended**__⚠️", url=config.SERVER_LINK
+                color=discord.Color.red(), title="⚠️__**Quotient Legacy Subscription Ended**__⚠️", url=config.SERVER_LINK
             )
             _e.description = (
-                "This is to inform you that your subscription of Quotient Pro has been ended.\n\n"
+                "This is to inform you that your subscription of Quotient Legacy has been ended.\n\n"
                 "*Following is a list of perks or data you lost:*"
             )
 
@@ -181,12 +181,12 @@ class PremiumCog(Cog, name="Premium"):
 
         _e = discord.Embed(
             color=self.bot.color,
-            title="Quotient Pro Purchase Successful!",
+            title="Quotient Legacy Purchase Successful!",
             url=self.bot.config.SERVER_LINK,
             description=(
                 f"{random_greeting()} {member.mention},\n"
-                f"Thanks for purchasing Quotient Premium. Your server **{upgraded_guild}** has access to Quotient Pro features until `{_guild.premium_end_time.strftime('%d-%b-%Y %I:%M %p')}`.\n\n"
-                "[Click me to Invite Quotient Pro Bot to your server](https://discord.com/oauth2/authorize?client_id=902856923311919104&scope=applications.commands%20bot&permissions=21175985838)\n"
+                f"Thanks for purchasing Quotient Premium. Your server **{upgraded_guild}** has access to Quotient Legacy features until `{_guild.premium_end_time.strftime('%d-%b-%Y %I:%M %p')}`.\n\n"
+                "[Click me to Invite Quotient Legacy Bot to your server](https://discord.com/oauth2/authorize?client_id=902856923311919104&scope=applications.commands%20bot&permissions=21175985838)\n"
             ),
         )
 

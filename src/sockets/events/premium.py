@@ -58,7 +58,7 @@ class SockPrime(Cog):
         _e.description = (
             f"{random_greeting()} {member.mention},\n"
             "Thanks for purchasing Quotient Premium.\n\n"
-            f"[Invite Quotient Pro]({prime}) | [Support Server]({self.bot.config.SERVER_LINK}) | [Download Invoice]({invoice})"
+            f"[Invite Quotient Legacy]({prime}) | [Support Server]({self.bot.config.SERVER_LINK}) | [Download Invoice]({invoice})"
         )
 
         _e.set_image(url=random_thanks())
@@ -97,10 +97,10 @@ class SockPrime(Cog):
     #             "Quotient has partnered with Rilp Bot, a multipurpose bot that features Automoderation, "
     #             "Invite Tracking, Starboard, Welcome and Leave messages, Giveaways, Polls, Moderation, "
     #             "Captcha Security, and much more.\n\n"
-    #             "With this Quotient Pro purchase, you have received **Rilp Bot Premium (30 days)**"
+    #             "With this Quotient Legacy purchase, you have received **Rilp Bot Premium (30 days)**"
     #             "\n\n__Please follow these steps:__\n"
     #             "➜ Head over to dashboard <https://rilp-bot.tech>\n"
-    #             "➜ Login with your discord account from which you bought Quotient Pro.\n"
+    #             "➜ Login with your discord account from which you bought Quotient Legacy.\n"
     #             "➜ Click on the dropdown beside avatar and then head over to `Manage Subscription`\n"
     #             "➜ Click on 'Select Server' and choose your server to activate premium.\n\n"
     #             "To Invite RILP BOT - <https://rilp-bot.tech/invite>\n"

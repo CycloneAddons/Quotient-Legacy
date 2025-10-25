@@ -80,7 +80,7 @@ class Quomisc(Cog, name="quomisc"):
         )
         v.add_item(
             discord.ui.Button(
-                style=discord.ButtonStyle.link, label="Invite Quotient Pro", url=self.bot.config.PRO_LINK, row=2
+                style=discord.ButtonStyle.link, label="Invite Quotient Legacy", url=self.bot.config.PRO_LINK, row=2
             )
         )
         v.add_item(
@@ -164,7 +164,7 @@ class Quomisc(Cog, name="quomisc"):
 
         # [`hash`](url) message (offset)
         offset = format_relative(commit_time.astimezone(timezone.utc))
-        return f"[`{short_sha2}`](https://github.com/quotientbot/Quotient-Bot/commit/{commit.hex}) {truncate_string(short,40)} ({offset})"
+        return f"[`{short_sha2}`](https://github.com/CycloneAddons/Quotient-Legacy/commit/{commit.hex}) {truncate_string(short,40)} ({offset})"
 
     def get_last_commits(self, count=3):
         repo = pygit2.Repository(".git")
@@ -193,7 +193,7 @@ class Quomisc(Cog, name="quomisc"):
 
         chnl_count = Counter(map(lambda ch: ch.type, self.bot.get_all_channels()))
 
-        owner = await self.bot.getch(self.bot.get_user, self.bot.fetch_user, 548163406537162782)
+        owner = await self.bot.getch(self.bot.get_user, self.bot.fetch_user, ctx.config.OWNER_ID)
 
         msges = self.bot.seen_messages
 
