@@ -96,10 +96,17 @@ class ScrimEvents(Cog):
 
             await scrim.assigned_slots.add(slot)
 
-            await Scrim.filter(pk=scrim.id).update(available_slots=ArrayRemove("available_slots", slot_num))
+
+            await scrim.refresh_from_db(fields=["available_slots"])
+
+            if slot_num in scrim.available_slots:
+                scrim.available_slots.remove(slot_num)
+                # Save the updated available_slots
+                await scrim.save(update_fields=["available_slots"])
+                
             self.bot.loop.create_task(scrim.add_tick(message))
 
-            if len(scrim.available_slots) == 1:
+            if len(scrim.available_slots) == 0:
                 try:
                     await scrim.close_registration()
                 except Exception as e:
@@ -242,3 +249,4 @@ class ScrimEvents(Cog):
 
         if banlog := await BanLog.get_or_none(guild_id=guild.id):
             await banlog.log_unban(user_id, guild.me, scrims, new_reason)
+

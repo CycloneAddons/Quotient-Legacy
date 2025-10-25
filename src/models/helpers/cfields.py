@@ -16,3 +16,4 @@ class ArrayField(Field, list):
 
     def to_db_value(self, value: Any, instance: Any) -> Any:
         return [self.sub_field.to_db_value(val, instance) for val in value]
+

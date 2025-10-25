@@ -12,7 +12,7 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 import discord
-import pkg_resources
+from importlib.metadata import version, PackageNotFoundError
 import psutil
 import pygit2
 from discord.ext import commands
@@ -158,26 +158,35 @@ class Quomisc(Cog, name="quomisc"):
     @staticmethod
     def format_commit(commit):  # source: R danny
         short, _, _ = commit.message.partition("\n")
-        short_sha2 = commit.hex[0:6]
+        short_sha2 = str(commit.id)[0:6]  # use commit.id instead of commit.hex
+        full_sha = str(commit.id)  # for URL
+
         commit_tz = timezone(timedelta(minutes=commit.commit_time_offset))
         commit_time = datetime.fromtimestamp(commit.commit_time).astimezone(commit_tz)
 
-        # [`hash`](url) message (offset)
+        # relative time offset
         offset = format_relative(commit_time.astimezone(timezone.utc))
-        return f"[`{short_sha2}`](https://github.com/CycloneAddons/Quotient-Legacy/commit/{commit.hex}) {truncate_string(short,40)} ({offset})"
+
+        return f"[`{short_sha2}`](https://github.com/CycloneAddons/Quotient-Legacy/commit/{full_sha}) {truncate_string(short,40)} ({offset})"
 
     def get_last_commits(self, count=3):
         repo = pygit2.Repository(".git")
-        commits = list(itertools.islice(repo.walk(repo.head.target, pygit2.GIT_SORT_TOPOLOGICAL), count))
+        commits = list(itertools.islice(
+            repo.walk(repo.head.target, pygit2.GIT_SORT_TOPOLOGICAL), count
+        ))
         return "\n".join(self.format_commit(c) for c in commits)
-
+        
     @commands.command(aliases=("stats",))
     @commands.cooldown(1, 10, commands.BucketType.guild)
     async def about(self, ctx: Context):
         """Statistics of Quotient."""
         db_latency = await self.bot.db_latency
 
-        version = pkg_resources.get_distribution("discord.py").version
+        try:
+           discord_version = version("discord.py")
+        except PackageNotFoundError:
+           discord_version = "unknown"
+
         revision = self.get_last_commits()
 
         total_memory = psutil.virtual_memory().total >> 20
@@ -246,7 +255,7 @@ class Quomisc(Cog, name="quomisc"):
 
 
         embed.set_footer(
-            text=f"Made with discord.py v{version} | Powered by Devspire",
+            text=f"Made with discord.py v{discord_version} | Powered by Devspire",
             icon_url="http://i.imgur.com/5BFecvA.png",
         )
 
@@ -391,3 +400,4 @@ async def setup(bot: Quotient) -> None:
     await bot.add_cog(Quomisc(bot))
     await bot.add_cog(Dev(bot))
     await bot.add_cog(QuoAlerts(bot))
+

@@ -16,7 +16,6 @@ import discord
 from aiocache import cached
 from discord import AllowedMentions, Intents
 from discord.ext import commands
-from lru import LRU
 from tortoise import Tortoise
 
 import config as cfg
@@ -71,7 +70,7 @@ class Quotient(commands.AutoShardedBot):
         self.lockdown_msg: Optional[str] = None
         self._BotBase__cogs = commands.core._CaseInsensitiveDict()
 
-        self.message_cache: Dict[int, Any] = LRU(1024)  # type: ignore
+        self.message_cache: Dict[int, Any] = 25  # type: ignore
 
     @on_startup.append
     async def __load_extensions(self):
@@ -444,3 +443,4 @@ bot = Quotient()
 async def bot_before_invoke(ctx: Context):
     if ctx.guild is not None and not ctx.guild.chunked:
         bot.loop.create_task(ctx.guild.chunk())
+
