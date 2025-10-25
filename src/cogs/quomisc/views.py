@@ -16,7 +16,6 @@ from constants import IST
 from core import Context, QuotientView
 from utils import emote
 
-
 class BaseView(discord.ui.View):
     def __init__(self, ctx: Context, *, timeout=30.0):
         self.ctx = ctx
