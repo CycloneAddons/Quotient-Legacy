@@ -21,7 +21,7 @@ from discord import Embed, Color
 from cogs.quomisc.helper import format_relative
 from core import Cog, Context, QuotientView
 from models import Commands, Guild, User, Votes
-from utils import LinkButton, LinkType, QuoColor, checks, get_ipm, human_timedelta, truncate_string
+from utils import LinkButton, LinkType, QuoColor, checks, get_ipm, human_timedelta, truncate_string, emote
 
 from .alerts import *
 from .dev import *
@@ -194,36 +194,66 @@ class Quomisc(Cog, name="quomisc"):
         chnl_count = Counter(map(lambda ch: ch.type, self.bot.get_all_channels()))
 
         owner = await self.bot.getch(self.bot.get_user, self.bot.fetch_user, ctx.config.OWNER_ID)
+        legacy_owner = await self.bot.getch(self.bot.get_user, self.bot.fetch_user, 548163406537162782)
 
         msges = self.bot.seen_messages
-
-        embed = discord.Embed(description="Latest Changes:\n" + revision)
-        embed.title = "Quotient Official Support Server"
-        embed.url = ctx.config.SERVER_LINK
-        embed.colour = self.bot.color
-        embed.set_author(name=str(owner), icon_url=owner.display_avatar.url)
-
         guild_value = len(self.bot.guilds)
 
-        embed.add_field(name="Servers", value=f"{guild_value:,} total\n{len(self.bot.shards)} shards")
-        embed.add_field(name="Uptime", value=f"{self.get_bot_uptime(brief=True)}\n{msges:,} messages seen")
-        embed.add_field(name="Members", value=f"{total_members:,} Total\n{cached_members:,} cached")
+        embed = discord.Embed(
+            description=f"{emote.diamond} **Latest Changes:**\n{revision}",
+            color=self.bot.color
+        )
+        embed.title = f"{emote.bot} Quotient - The Legacy Continues"
+        embed.url = ctx.config.SERVER_LINK
+        embed.set_author(name=str(owner), icon_url=owner.display_avatar.url)
+
         embed.add_field(
-            name="Channels",
-            value=f"{chnl_count[discord.ChannelType.text] + chnl_count[discord.ChannelType.voice]:,} total\n{chnl_count[discord.ChannelType.text]:,} text\n{chnl_count[discord.ChannelType.voice]:,} voice",
+            name=f"{emote.server} Servers",
+            value=f"{guild_value:,} total\n{len(self.bot.shards)} shards",
         )
         embed.add_field(
-            name="Total Commands Used",
+            name=f"{emote.eye} Uptime",
+            value=f"{self.get_bot_uptime(brief=True)}\n{msges:,} messages seen",
+        )
+        embed.add_field(
+            name=f"{emote.brilliance} Members",
+            value=f"{total_members:,} total\n{cached_members:,} cached",
+        )
+        embed.add_field(
+            name=f"{emote.TextChannel} Channels",
+            value=f"{chnl_count[discord.ChannelType.text] + chnl_count[discord.ChannelType.voice]:,} total\n"
+                  f"{chnl_count[discord.ChannelType.text]:,} text\n"
+                  f"{chnl_count[discord.ChannelType.voice]:,} voice",
+        )
+        embed.add_field(
+            name=f"{emote.info} Commands Used",
             value=f"{total_command_uses:,} globally\n{server_invokes:,} in this server\n{user_invokes:,} by you.",
         )
         embed.add_field(
-            name="Stats",
-            value=f"Ping: {round(self.bot.latency * 1000, 2)}ms\nDatabase: {db_latency}\nIPM: {round(get_ipm(ctx.bot), 2)}",
+            name=f"{emote.settings_yes} System Stats",
+            value=f"**Ping:** {round(self.bot.latency * 1000, 2)}ms\n"
+                  f"**Database:** {db_latency}\n"
+                  f"**IPM:** {round(get_ipm(ctx.bot), 2)}\n"
+                  f"**RAM:** {used_memory}/{total_memory} MB\n"
+                  f"**CPU:** {cpu_used}%",
         )
-        embed.add_field(name="System", value=f"**RAM**: {used_memory}/{total_memory} MB\n**CPU:** {cpu_used}% used."),
-        embed.set_footer(text=f"Made with discord.py v{version}", icon_url="http://i.imgur.com/5BFecvA.png")
 
-        links = [LinkType("Support Server", ctx.config.SERVER_LINK), LinkType("Invite Me", ctx.config.BOT_INVITE)]
+        embed.add_field(
+             name=f"{emote.diamond} Legacy & Tribute",
+             value=f"Originally created by [**{str(legacy_owner)}**](https://github.com/deadaf), whose vision built the foundation of Quotient.",
+             inline=False,
+          )
+
+
+        embed.set_footer(
+            text=f"Made with discord.py v{version} | Powered by Devspire",
+            icon_url="http://i.imgur.com/5BFecvA.png",
+        )
+
+        links = [
+            LinkType("Support Server", ctx.config.SERVER_LINK),
+            LinkType("Invite Me", ctx.config.BOT_INVITE),
+        ]
         await ctx.send(embed=embed, embed_perms=True, view=LinkButton(links))
 
     @commands.command()
