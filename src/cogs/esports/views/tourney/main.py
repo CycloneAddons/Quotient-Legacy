@@ -304,7 +304,7 @@ class TourneyManager(EsportsBaseView):
             _m = await self.ctx.simple(f"Crunching the data for you.... {emote.loading}")
             await asyncio.sleep(1)
 
-            _log_chan = await self.bot.getch(self.bot.get_channel, self.bot.fetch_channel, 1431576094875848895)
+            _log_chan = await self.bot.getch(self.bot.get_channel, self.bot.fetch_channel, self.bot.config.TOURNEY_CSV_CHANNEL)
             m: discord.Message = await _log_chan.send(file=await tourney.get_csv())
 
             e = discord.Embed(

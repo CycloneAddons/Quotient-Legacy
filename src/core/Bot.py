@@ -152,7 +152,7 @@ class Quotient(commands.AutoShardedBot):
     async def get_prefix(self, message: discord.Message) -> Union[str, Callable, List[str]]:
         """Get a guild's prefix"""
         if not message.guild:
-            return commands.when_mentioned_or("q")(self, message)
+            return commands.when_mentioned_or(cfg.PREFIX)(self, message)
 
         prefix = None
         guild = self.cache.guild_data.get(message.guild.id)
@@ -161,12 +161,12 @@ class Quotient(commands.AutoShardedBot):
 
         else:
             self.cache.guild_data[message.guild.id] = {
-                "prefix": "q",
+                "prefix": cfg.PREFIX,
                 "color": self.color,
                 "footer": cfg.FOOTER,
             }
 
-        prefix = prefix or "q"
+        prefix = prefix or cfg.PREFIX
 
         return commands.when_mentioned_or(
             *tuple("".join(chars) for chars in itertools.product(*zip(prefix.lower(), prefix.upper())))

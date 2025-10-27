@@ -14,7 +14,7 @@ class Guild(BaseDbModel):
 
     guild_id = fields.BigIntField(pk=True, index=True)
 
-    prefix = fields.CharField(default="q", max_length=5)
+    prefix = fields.CharField(default=config.PREFIX, max_length=5)
     embed_color = fields.IntField(default=65459, null=True)
     embed_footer = fields.TextField(default=config.FOOTER)
 

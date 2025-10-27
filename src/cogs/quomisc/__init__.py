@@ -278,7 +278,7 @@ class Quomisc(Cog, name="quomisc"):
         """Change your server's prefix"""
 
         if not new_prefix:
-            prefix = self.bot.cache.guild_data[ctx.guild.id].get("prefix", "q")
+            prefix = self.bot.cache.guild_data[ctx.guild.id].get("prefix", self.bot.config.PREFIX)
             return await ctx.simple(f"Prefix for this server is `{prefix}`")
 
         if len(new_prefix) > 5:
