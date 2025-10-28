@@ -1,45 +1,81 @@
+# Quotient Legacy - The Ultimate Discord Bot for Esports Management
+
 ![Language](https://img.shields.io/badge/lang-Python%203.8-green)
 ![discord.py Version](https://img.shields.io/badge/lib-discord.py%202.0-blue)
 ![Db](https://img.shields.io/badge/db-PostgreSQL-blue)
 ![Library](https://img.shields.io/badge/orm-Tortoise%20ORM-purple)
+![Status](https://img.shields.io/badge/status-legacy-orange)
 
 <img align="right" src="https://cdn.discordapp.com/attachments/782161513825042462/937419510447751249/quotient.png" alt="Logo" width="25%">
 
-## Quotient - The Ultimate Discord Bot for Esports Management
+## 🕊️ In Memory of Rohit - The Original Creator
 
+This repository is maintained as a legacy fork in memory of **Rohit**, the original creator and owner of Quotient bot. While the original Quotient bot is no longer operational, this fork preserves his incredible work and keeps the project alive for educational purposes and community use.
 
-Quotient is the ultimate open-source Discord bot designed specifically for esports servers. Our goal is to empower esports communities by simplifying and streamlining the organization and management of scrims, tournaments, and other events.
-> The source here is only for educational purposes.
+## About Quotient Legacy
+
+Quotient Legacy is a maintained fork of the original Quotient bot - the ultimate open-source Discord bot designed specifically for esports servers. Our goal is to preserve and continue the legacy of empowering esports communities by simplifying and streamlining the organization and management of scrims, tournaments, and other events.
+
+> This source is maintained for educational purposes and to honor the original work.
 
 ## Features
-Quotient is a multi-functional bot that provides a comprehensive range of features, including:
+Quotient Legacy preserves all the original multi-functional features, including:
 ```
 - Automated Scrims Management
 - Automated Tournaments Management
-- Easy to use Web-Dashboard
 - Community engagement tools
 - and much much more...
 ```
-## Installation
-To install Quotient, simply add the bot to your Discord server using the following link: [`Add Quotient to your server`](https://discord.com/oauth2/authorize?client_id=746348747918934096&scope=applications.commands%20bot&permissions=536737213566). <br>
-We would rather prefer you not running a direct cloned instance of Quotient. It would be a ton better to just Invite the running instance.
 
-If you decide to edit, compile or use this code in any way. Kindly respect the [`LICENSE`](LICENSE).
+## Installation & Self-Hosting
+
+Since the original Quotient bot is no longer operational, you can self-host this legacy version:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/CycloneAddons/Quotient-Legacy.git
+   cd Quotient-Legacy
+   ```
+
+2. **Set up environment variables and dependencies** (refer to original configuration)
+
+3. **Run the bot:**
+   ```bash
+   python src/bot.py
+   ```
+
+## 🛠️ Maintenance & Updates
+
+This fork is actively maintained by **CycloneAddons** with:
+- Bug fixes and compatibility updates
+- Security patches
+- Community support
 
 ## How do I contribute?
 
-Contributions are Welcome:) kindly open an issue first for discussion.
-It's also a good option to join the [`Support Server`](https://discord.gg/aBM5xz6) 
+Contributions are welcome to help maintain this legacy project. Kindly:
+1. Open an issue first for discussion
+2. Follow the existing code style
+3. Respect the original architecture and vision
 
-## Contact Us
-If you have any questions or feedback, please feel free to reach out to us on our [`Support Server`](https://discord.gg/aBM5xz6) or create an issue on this repository. Thank you for choosing Quotient!
+## Support
+For support with this legacy version, you can:
+- Open an issue on this repository
+- Join community discussions about the project
 
 ## License
-This project is licensed under the MPL-2.0 license - see the [LICENSE](LICENSE) file for details.
-___
-### Contributors 👥
+This project remains licensed under the MPL-2.0 license - see the [LICENSE](LICENSE) file for details.
+
+---
+
+### Original Contributors 👥
 <a href="https://github.com/quotientbot/Quotient-Bot/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=quotientbot/Quotient-Bot" />
 </a>
 
+### Legacy Maintainer
+- **CycloneAddons** - Maintaining this legacy fork
 
+---
+
+*This fork is maintained with respect and gratitude for the original work by Rohit. May his contributions to the Discord bot community be remembered.*
