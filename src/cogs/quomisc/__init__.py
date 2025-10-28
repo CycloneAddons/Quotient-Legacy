@@ -167,9 +167,18 @@ class Quomisc(Cog, name="quomisc"):
         return f"[`{short_sha2}`](https://github.com/CycloneAddons/Quotient-Legacy/commit/{commit.hex}) {truncate_string(short,40)} ({offset})"
 
     def get_last_commits(self, count=3):
+       if not os.path.exists(".git"):
+         return "⚠️ No .git directory found — not a git repository."
+
+       try:
         repo = pygit2.Repository(".git")
-        commits = list(itertools.islice(repo.walk(repo.head.target, pygit2.GIT_SORT_TOPOLOGICAL), count))
-        return "\n".join(self.format_commit(c) for c in commits)
+        commits = list(itertools.islice(
+            repo.walk(repo.head.target, pygit2.GIT_SORT_TOPOLOGICAL),
+            count
+        ))
+        return "\n".join(self.format_commit(c) for c in commits) if commits else "ℹ️ No commits found."
+       except Exception as e:
+         return f"❌ Error reading git repository: {e}"
 
     @commands.command(aliases=("stats",))
     @commands.cooldown(1, 10, commands.BucketType.guild)
