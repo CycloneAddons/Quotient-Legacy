@@ -74,7 +74,9 @@ This project remains licensed under the MPL-2.0 license - see the [LICENSE](LICE
 </a>
 
 ### Legacy Maintainer
-- **CycloneAddons** - Maintaining this legacy fork
+<a href="https://github.com/cycloneaddons/Quotient-Legacy/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cycloneaddons/Quotient-Legacy" />
+</a>
 
 ---
 
