@@ -43,7 +43,7 @@ TOURNEY_CSV_CHANNEL =
 EMOJIS_SERVER = [] #atleast 2 server id required...
 
 BOT_INVITE = "...."
-
+ACTIVITY_NAME_LISTENING = "qsetup | qhelp" # disply your own acitvity status here
 
 # LOGS
 SHARD_LOG = "..."
