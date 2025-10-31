@@ -1,6 +1,6 @@
 # Quotient Legacy - The Ultimate Discord Bot for Esports Management
 
-![Language](https://img.shields.io/badge/lang-Python%203.8-green)
+![Language](https://img.shields.io/badge/lang-Python%203.11-green)
 ![discord.py Version](https://img.shields.io/badge/lib-discord.py%202.0-blue)
 ![Db](https://img.shields.io/badge/db-PostgreSQL-blue)
 ![Library](https://img.shields.io/badge/orm-Tortoise%20ORM-purple)
