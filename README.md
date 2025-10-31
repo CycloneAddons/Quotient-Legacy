@@ -6,7 +6,7 @@
 ![Library](https://img.shields.io/badge/orm-Tortoise%20ORM-purple)
 ![Status](https://img.shields.io/badge/status-legacy-orange)
 
-<img align="right" src="https://i.ibb.co/ZRCXGpXz/Picsart-25-10-24-21-18-49-472.webp" alt="Logo" width="25%">
+<img align="right" src="https://raw.githubusercontent.com/CycloneAddons/Quotient-Legacy/refs/heads/main/Picsart_25-10-24_21-18-49-472.webp" alt="Logo" width="25%">
 
 ## 🕊️ In Memory of Rohit - The Original Creator
 
