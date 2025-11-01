@@ -46,15 +46,22 @@ class HelpCommand(commands.HelpCommand):
 
         for cog, cmds in mapping.items():
             if cog and cog.qualified_name not in hidden and await self.filter_commands(cmds, sort=True):
+                commands_list = ", ".join(map(lambda x: f"`{x}`", cog.get_commands()))
+                if len(commands_list) > 1024:
+                    commands_list = commands_list[:1021] + "..."
                 embed.add_field(
                     inline=False,
                     name=cog.qualified_name.title(),
-                    value=", ".join(map(lambda x: f"`{x}`", cog.get_commands())),
+                    value=commands_list,
                 )
 
         slash_cmds = await ctx.bot.tree.fetch_commands()
         slash_cmds = [f"{i.mention}" for i in slash_cmds]
-        embed.add_field(name="Slash Commands", value=", ".join(slash_cmds), inline=False)
+        slash_cmds_value = ", ".join(slash_cmds)
+        if len(slash_cmds_value) > 1024:
+            slash_cmds_value = slash_cmds_value[:1021] + "..."
+        embed.add_field(name="Slash Commands", value=slash_cmds_value, inline=False)
+
 
         links = [
             LinkType("Support Server", config.SERVER_LINK),

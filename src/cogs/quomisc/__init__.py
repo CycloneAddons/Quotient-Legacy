@@ -4,6 +4,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     from core import Quotient
+import config
 
 import inspect
 import itertools
@@ -42,11 +43,11 @@ class Quomisc(Cog, name="quomisc"):
             e = Embed(
                 title="📦 Bot Source Code",
                 description=(
-                    f"**Original Quotient Source:** [Click Here]({og_source_url})\n\n"
-                    f"**Quotient Legacy:** [Private Repository]({legacy_url})\n"
-                    "_The Quotient Legacy repo will be open source after we reach 500 servers._"
+                    f"**Original Quotient Source:** [Click Here]({og_source_url})\n"
+                    f"**Quotient Legacy:** [Private Repository]({legacy_url})\n\n"
+                    "_The Quotient Legacy repo is now open-source with video tutorial._ https://www.youtube.com/watch?v=7E2hB0sX0hg"
                 ),
-                color=0x00FFB3
+                color=config.COLOR
             )
             e.set_footer(text="Revived and maintained by Cyclone Addons ❤️")
             return await ctx.send(embed=e)
@@ -64,7 +65,7 @@ class Quomisc(Cog, name="quomisc"):
         e = Embed(
             title=f"🔍 Source for `{command.name}`",
             description=f"[Click here to view the source]({final_url})",
-            color=0x00FFB3
+            color=config.COLOR
         )
         e.set_footer(text="Revived and maintained by Cyclone Addons ❤️")
         await ctx.send(embed=e)
