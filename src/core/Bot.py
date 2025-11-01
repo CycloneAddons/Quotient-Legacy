@@ -9,6 +9,7 @@ import asyncio
 import itertools
 import os
 import time
+import math
 from datetime import datetime, timedelta
 
 import aiohttp
@@ -54,7 +55,6 @@ class Quotient(commands.AutoShardedBot):
             help_command=HelpCommand(),
             chunk_guilds_at_startup=False,
             allowed_mentions=AllowedMentions(everyone=False, roles=False, replied_user=True, users=True),
-            activity=discord.Activity(type=discord.ActivityType.listening, name=self.config.ACTIVITY_NAME_LISTENING),
             proxy=getattr(cfg, "PROXY_URI", None),
             **kwargs,
         )
@@ -72,6 +72,40 @@ class Quotient(commands.AutoShardedBot):
         self._BotBase__cogs = commands.core._CaseInsensitiveDict()
 
         self.message_cache: Dict[int, Any] = LRU(1024)  # type: ignore
+
+        activities = []
+        for act in getattr(cfg, "ACTIVITIES", []):
+            act_type = getattr(discord.ActivityType, act["type"].lower(), discord.ActivityType.playing)
+            if act_type == discord.ActivityType.streaming:
+                activities.append(discord.Streaming(name=act["name"], url=act.get("url", "https://twitch.tv/discord")))
+            else:
+                activities.append(discord.Activity(type=act_type, name=act["name"]))
+
+        self.activities = itertools.cycle(activities) if activities else None
+        
+    async def rotate_activity(self):
+      await self.wait_until_ready()
+      while True:
+        activity = next(self.activities)
+
+        name = activity.name.format(
+          servers=len(self.guilds),
+          members=sum(g.member_count or 0 for g in self.guilds),
+          uptime=self._get_uptime(),
+          cmds=self.cmd_invokes,
+          msgs=self.seen_messages,
+          ping=round(self.latency * 1000)
+        )
+
+        await self.change_presence(activity=discord.Activity(type=activity.type, name=name))
+        await asyncio.sleep(5) # change 5 to any number of seconds you want
+
+    def _get_uptime(self):
+      delta = datetime.now(tz=csts.IST) - self.start_time
+      days, seconds = delta.days, delta.seconds
+      hours = seconds // 3600
+      minutes = (seconds % 3600) // 60
+      return f"{days}d {hours}h {minutes}m"
 
     @on_startup.append
     async def __load_extensions(self):
@@ -145,9 +179,14 @@ class Quotient(commands.AutoShardedBot):
             model.bot = self
 
     async def setup_hook(self) -> None:
-        await self.init_quo()
-        for coro_func in on_startup:
-            self.loop.create_task(coro_func(self))
+      await self.init_quo()
+
+      if self.activities:
+        self.loop.create_task(self.rotate_activity())
+
+      for coro_func in on_startup:
+        self.loop.create_task(coro_func(self))
+
 
     async def get_prefix(self, message: discord.Message) -> Union[str, Callable, List[str]]:
         """Get a guild's prefix"""
