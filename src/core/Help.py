@@ -45,15 +45,28 @@ class HelpCommand(commands.HelpCommand):
             embed.description += f"{emote.top_user} [__Server Premium ending:__]({config.SERVER_LINK}) *`forever (or until Cyclone dies)`*"
 
         for cog, cmds in mapping.items():
-            if cog and cog.qualified_name not in hidden and await self.filter_commands(cmds, sort=True):
-                commands_list = ", ".join(map(lambda x: f"`{x}`", cog.get_commands()))
-                if len(commands_list) > 1024:
-                    commands_list = commands_list[:1021] + "..."
-                embed.add_field(
-                    inline=False,
-                    name=cog.qualified_name.title(),
-                    value=commands_list,
-                )
+            is_dev = ctx.author.id in config.DEVS
+            if not is_dev and (not cog or cog.qualified_name in hidden):
+                continue
+            if is_dev:
+                filtered_cmds = cmds
+            else:
+                filtered_cmds = await self.filter_commands(cmds, sort=True)
+
+            if not filtered_cmds:
+                continue
+
+            commands_list = ", ".join(map(lambda x: f"`{x}`", filtered_cmds))
+            if len(commands_list) > 1024:
+                commands_list = commands_list[:1021] + "..."
+            embed.add_field(
+                inline=False,
+                name=cog.qualified_name.title() if cog else "No Category",
+                value=commands_list,
+            )
+
+
+
 
         slash_cmds = await ctx.bot.tree.fetch_commands()
         slash_cmds = [f"{i.mention}" for i in slash_cmds]
