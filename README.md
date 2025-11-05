@@ -80,4 +80,5 @@ This project remains licensed under the MPL-2.0 license - see the [LICENSE](LICE
 
 ---
 
-*This fork is maintained with respect and gratitude for the original work by Rohit. May his contributions to the Discord bot community be remembered.*
+*This fork is maintained with respect and gratitude for the original work by Rohit. May his contributions to the Discord bot community be remembered.* 
+
