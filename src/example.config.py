@@ -15,6 +15,30 @@ TORTOISE = {
     }
 }
 
+# TORTOISE = {
+#     "connections": {
+#         "default": {
+#             "engine": "tortoise.backends.asyncpg",
+#             "credentials": {
+#                 "host": "host_address",
+#                 "user": "username",
+#                 "password": "password",
+#                 "database": "db_name",
+#                 "port": 5432,
+#             }
+#         }
+#     },
+#     "apps": {
+#         "models": {
+#             "models": [
+#                 "models.misc",
+#                 "models",
+#                 "aerich.models"
+#             ],
+#             "default_connection": "default",
+#         }
+#     }
+# }
 
 EXTENSIONS = [
     "cogs.esports",
