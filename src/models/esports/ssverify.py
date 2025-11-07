@@ -138,17 +138,23 @@ class SSVerify(BaseDbModel):
         return False, False
 
     async def verify_yt(self, ctx: Context, image: ImageResponse):
-        if not any(_ in image.lower_text for _ in ("subscribe", "videos")):
-            return f"{self.emoji()} | This is not a valid youtube ss.\n"
+        raw_text = image.text or ""
+        normalized = " ".join(raw_text.lower().split())
+        channel_clean = self.channel_name.lower().replace(" ", "")
 
-        elif not self.channel_name.lower().replace(" ", "") in image.lower_text:
+        if not any(keyword in normalized for keyword in ("subscribe", "videos")):
+            return f"{self.emoji()} | This doesn't look like a valid YouTube screenshot.\n"
+
+        elif channel_clean not in normalized.replace(" ", ""):
             return f"{self.emoji()} | Screenshot must belong to [`{self.channel_name}`]({self.channel_link}) channel.\n"
 
-        elif "SUBSCRIBE " in image.text.replace("\n", " "):
-            return f"{self.emoji()} | You must subscribe [`{self.channel_name}`]({self.channel_link}) to get verified.\n"
+        elif "subscribe" in normalized and "subscribed" not in normalized:
+            return f"{self.emoji()} | You must be subscribed to [`{self.channel_name}`]({self.channel_link}) to get verified.\n"
 
         await self._add_to_data(ctx, image)
         return f"{self.emoji(True)} | Verified successfully.\n"
+
+        
 
     async def verify_insta(self, ctx: Context, image: ImageResponse):
         if not "followers" in image.lower_text:

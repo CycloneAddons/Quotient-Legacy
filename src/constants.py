@@ -54,6 +54,7 @@ class SSType(Enum):
     loco = "loco"
     anyss = "Any SS"
     custom = "custom"
+    stan = "stan"
 
 
 class EsportsLog(Enum):

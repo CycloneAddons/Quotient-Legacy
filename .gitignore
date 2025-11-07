@@ -9,3 +9,4 @@ config.py
 migrations/
 .DS_Store
 venv
+quotient-ocr/

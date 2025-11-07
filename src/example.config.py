@@ -75,6 +75,7 @@ ACTIVITIES = [
     {"type": "competing", "name": "to lead the eSports automation arena"},
     {"type": "streaming", "name": "live event analytics", "url": "https://twitch.tv/Quotient"},
 ]
+
 # ─────────────────────────────────────────────────────────────
 #  Activity Placeholders (usable in "name" field)
 #  These will automatically update with live bot stats.
@@ -101,5 +102,6 @@ PUBLIC_LOG = "..."
 # IGNORE RIGHT NOW
 WEBSITE = "https://github.com/CycloneAddons/Quotient-Legacy"
 REPOSITORY = "https://github.com/CycloneAddons/Quotient-Legacy"
-FASTAPI_URL = "https://i_will_tell_you_in_next_video"
-FASTAPI_KEY ="i_will_tell_you_in_next_video"
+FASTAPI_URL = "https://ocr.gfxvisual.xyz"
+FASTAPI_KEY ="cyclonestrongsecret"
+
