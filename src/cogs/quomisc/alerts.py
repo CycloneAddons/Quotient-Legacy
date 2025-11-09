@@ -12,7 +12,7 @@ import discord
 from discord.ext import commands
 
 from core import Cog, Context, QuotientView, embeds
-from models import Alert, Prompt, Read, Timer
+from models import Alert, Prompt, Read, Timer, User
 from utils import QuoPaginator, discord_timestamp
 
 __all__ = ("QuoAlerts",)
@@ -63,8 +63,11 @@ class QuoAlerts(Cog):
     def __init__(self, bot: Quotient):
         self.bot = bot
 
-    def cog_check(self, ctx: Context):
-        return ctx.author.id in ctx.config.DEVS
+    async def cog_check(self, ctx: Context):
+        user = await User.get(user_id=ctx.author.id) 
+        is_dev = user.is_dev if user else False
+        print(f"Dev cog_check for {ctx.author} ({ctx.author.id}): {is_dev}")
+        return True
 
     @Cog.listener()
     async def on_command_completion(self, ctx: Context):

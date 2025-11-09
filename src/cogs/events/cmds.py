@@ -13,7 +13,7 @@ from datetime import timedelta
 import discord
 
 from core import Cog, Context, cooldown
-from models import ArrayRemove, Autorole, Commands
+from models import ArrayRemove, Autorole, Commands, User
 
 
 class UserCommandLimits(defaultdict):
@@ -33,7 +33,10 @@ class CmdEvents(Cog):
         author = ctx.author
         message = ctx.message
 
-        if author.id in self.bot.config.DEVS:
+        user = await User.get(user_id=author.id)  # safe way to check isDev
+        is_dev = user.is_dev if user else False
+
+        if is_dev:
             return True
 
         if not ctx.guild:

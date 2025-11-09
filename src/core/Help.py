@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 import config
-from models import Guild
+from models import Guild, User
 from utils import LinkButton, LinkType, QuoPaginator, discord_timestamp, truncate_string, emote
 
 from .Cog import Cog
@@ -45,11 +45,13 @@ class HelpCommand(commands.HelpCommand):
             embed.description += f"{emote.top_user} [__Server Premium ending:__]({config.SERVER_LINK}) *`forever (or until Cyclone dies)`*"
 
         for cog, cmds in mapping.items():
-            is_dev = ctx.author.id in config.DEVS
+            user = await User.get(user_id=ctx.author.id)  # safe way to check isDev
+            is_dev = user.is_dev if user else False
+
             if not is_dev and (not cog or cog.qualified_name in hidden):
-                continue
+               continue
             if is_dev:
-                filtered_cmds = cmds
+               filtered_cmds = cmds
             else:
                 filtered_cmds = await self.filter_commands(cmds, sort=True)
 

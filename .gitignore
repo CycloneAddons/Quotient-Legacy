@@ -10,3 +10,4 @@ migrations/
 .DS_Store
 venv
 quotient-ocr/
+test.py

