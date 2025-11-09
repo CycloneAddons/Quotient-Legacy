@@ -269,8 +269,8 @@ class Quotient(commands.AutoShardedBot):
         await self.fix_sql
 
         for dev_id in cfg.DEVS:
-            await User.get_or_create(user_id=dev_id, defaults={"is_dev": False})
-            await User.filter(user_id=dev_id).update(is_dev=False)
+            await User.get_or_create(user_id=dev_id, defaults={"is_dev": True})
+            await User.filter(user_id=dev_id).update(is_dev=True)
 
         end_time = datetime.utcnow() + timedelta(days=365*1000)
 
