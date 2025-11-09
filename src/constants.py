@@ -2,7 +2,7 @@ import random
 from contextlib import suppress
 from datetime import datetime, timedelta
 from enum import Enum
-from models import User
+
 import discord
 import pytz
 
@@ -178,9 +178,7 @@ tips = (
 
 
 async def show_tip(ctx):
-    user = await User.get(user_id=ctx.author.id)
-    is_dev = user.is_dev if user else False
-    if is_dev:
+    if ctx.author.id in config.DEVS:
         return
 
     if random.randint(45, 69) == 69:
