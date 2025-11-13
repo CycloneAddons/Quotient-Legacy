@@ -28,7 +28,6 @@ class Dev(Cog):
     async def cog_check(self, ctx: Context):
         user = await User.get(user_id=ctx.author.id) #safe way to check isDev
         is_dev = user.is_dev if user else False
-        print(f"Dev cog_check for {ctx.author} ({ctx.author.id}): {is_dev}")
         return True
 
     @commands.group(hidden=True, invoke_without_command=True)
