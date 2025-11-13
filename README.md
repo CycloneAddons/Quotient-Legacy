@@ -24,6 +24,7 @@ Quotient Legacy preserves all the original multi-functional features, including:
 - Automated Scrims Management
 - Automated Tournaments Management
 - Community engagement tools
+- Advance Screenshots Verification of Social Media
 - and much much more...
 ```
 
