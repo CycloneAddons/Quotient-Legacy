@@ -60,5 +60,5 @@ tzdata==2023.3 ; python_version >= "3.11" and python_version < "4.0" and platfor
 tzlocal==5.0.1 ; python_version >= "3.11" and python_version < "4.0"
 ujson==5.8.0 ; python_version >= "3.11" and python_version < "4.0"
 wcwidth==0.2.6 ; python_version >= "3.11" and python_version < "4.0"
-wheel==0.40.0 ; python_version >= "3.11" and python_version < "4.0"
+wheel==0.46.2 ; python_version >= "3.11" and python_version < "4.0"
 yarl==1.9.2 ; python_version >= "3.11" and python_version < "4.0"
