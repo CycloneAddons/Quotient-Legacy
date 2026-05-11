@@ -10,7 +10,7 @@ import itertools
 import os
 import time
 import math
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import aiohttp
 import discord
@@ -274,7 +274,7 @@ class Quotient(commands.AutoShardedBot):
             await User.get_or_create(user_id=dev_id, defaults={"is_dev": True})
             await User.filter(user_id=dev_id).update(is_dev=True)
 
-        end_time = datetime.utcnow() + timedelta(days=365*1000)
+        end_time = datetime(2500, 12, 31, 23, 59, 59, tzinfo=timezone.utc)
 
         guild_ids = [guild.id for guild in self.guilds] 
 
