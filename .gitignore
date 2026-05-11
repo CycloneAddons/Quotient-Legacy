@@ -11,3 +11,4 @@ migrations/
 venv
 quotient-ocr/
 test.py
+db.sqlite3
